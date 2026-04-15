@@ -29,11 +29,34 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Prepare docs (copy topics)
+      - name: Prepare docs (copy topics + topics index)
         run: |
           mkdir -p docs/topics
           rm -rf docs/topics/*
           cp -r topics/* docs/topics/
+
+          python - <<'PY'
+          import pathlib
+
+          topics = []
+          for p in pathlib.Path('topics').rglob('*.md'):
+            rel = p.relative_to('topics')
+            title = rel.stem.replace('-', ' ').replace('_', ' ').title()
+            topics.append((rel, title))
+
+          topics.sort(key=lambda x: str(x[0]))
+
+          lines = [
+            "# Topics",
+            "",
+            "Use the search bar to filter by keyword (tag, symbol, concept).",
+            "",
+          ]
+          for rel, title in topics:
+            lines.append(f"- [{title}](topics/{rel.as_posix()})")
+
+          (pathlib.Path('docs') / 'topics.md').write_text("\n".join(lines) + "\n", encoding='utf-8')
+          PY
 
       - name: Build MkDocs site
         run: mkdocs build
