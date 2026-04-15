@@ -1,0 +1,25 @@
+site_name: Quantum Mechanics Gallery
+site_url: https://krazad0.github.io/quantum-mechanics-gallery/
+repo_url: https://github.com/KrAzad0/quantum-mechanics-gallery
+nav:
+  - Home: index.md
+  - Topics: topics/index.md
+theme:
+  name: material
+  features:
+    - navigation.instant
+    - navigation.tabs
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+plugins:
+  - search
+markdown_extensions:
+  - admonition
+  - pymdownx.superfences
+  - pymdownx.arithmatex:
+      generic: true
+extra_javascript:
+  - https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js
+extra_css:
+  - https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css
